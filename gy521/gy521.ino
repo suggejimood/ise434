@@ -17,10 +17,7 @@ void loop(){
   Wire.requestFrom(MPU,12,true);  
   AcX=Wire.read()<<8|Wire.read();    
   AcY=Wire.read()<<8|Wire.read();  
-  AcZ=Wire.read()<<8|Wire.read();  
-  GyX=Wire.read()<<8|Wire.read();  
-  GyY=Wire.read()<<8|Wire.read();  
-  GyZ=Wire.read()<<8|Wire.read();  
+  AcZ=Wire.read()<<8|Wire.read();    
   
   Serial.print("Accelerometer: ");
   Serial.print("X = "); Serial.print(AcX);
