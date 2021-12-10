@@ -1,6 +1,7 @@
 #include<Wire.h>
 const int MPU=0x68; 
 int16_t AcX,AcY,AcZ,Tmp,GyX,GyY,GyZ;
+int16_t RcX, RcY, RcZ, vector;
 
 void setup(){
   Wire.begin();
@@ -17,17 +18,26 @@ void loop(){
   Wire.requestFrom(MPU,12,true);  
   AcX=Wire.read()<<8|Wire.read();    
   AcY=Wire.read()<<8|Wire.read();  
-  AcZ=Wire.read()<<8|Wire.read();    
+  AcZ=Wire.read()<<8|Wire.read();  
+  GyX=Wire.read()<<8|Wire.read();  
+  GyY=Wire.read()<<8|Wire.read();  
+  GyZ=Wire.read()<<8|Wire.read();  
   
-  Serial.print("Accelerometer: ");
+  Serial.println("-------Accelerometer-------");
+  RcX = AcX * AcX;
+  RcY = AcY * AcY;
+  RcZ = AcZ * AcZ;
+
+  vector = RcX + RcY + RcZ;
+  vector = sqrt(vector);
+
+  Serial.print("Vector: "); Serial.println(vector);
+  Serial.println("---------------------------");
+  
+  Serial.println("------Gyroscope-------");
   Serial.print("X = "); Serial.print(AcX);
   Serial.print(" | Y = "); Serial.print(AcY);
-  Serial.print(" | Z = "); Serial.println(AcZ); 
-  
-  Serial.print("Gyroscope: ");
-  Serial.print("X = "); Serial.print(GyX);
-  Serial.print(" | Y = "); Serial.print(GyY);
-  Serial.print(" | Z = "); Serial.println(GyZ);
-  Serial.println(" ");
-  delay(333);
+  Serial.print(" | Z = "); Serial.println(AcZ);
+  Serial.println("---------------------");
+  delay(1000);
 }
