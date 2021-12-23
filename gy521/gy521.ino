@@ -1,7 +1,7 @@
 #include<Wire.h>
 const int MPU=0x68; 
 int16_t AcX,AcY,AcZ,Tmp,GyX,GyY,GyZ;
-int16_t RcX, RcY, RcZ, vector;
+int16_t RcX, RcY, RcZ, vector, angle;
 
 void setup(){
   Wire.begin();
@@ -21,7 +21,7 @@ void loop(){
   AcZ=Wire.read()<<8|Wire.read();  
   GyX=Wire.read()<<8|Wire.read();  
   GyY=Wire.read()<<8|Wire.read();  
-  GyZ=Wire.read()<<8|Wire.read();  
+  GyZ=Wire.read()<<8|Wire.read();
   
   Serial.println("-------Accelerometer-------");
   RcX = AcX * AcX;
@@ -33,6 +33,16 @@ void loop(){
 
   Serial.print("Vector: "); Serial.println(vector);
   Serial.println("---------------------------");
+
+  Serial.println("-------Angle-------");
+  angle = map(AcX, -16300, 16300, 0, 180);
+
+  Serial.println(angle);
+  
+  if(angle == 140){
+    Serial.println("Bingoo");
+  }
+  Serial.println("-------------------");
   
   Serial.println("------Gyroscope-------");
   Serial.print("X = "); Serial.print(AcX);
